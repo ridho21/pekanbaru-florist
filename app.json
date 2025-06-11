@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rent-car",
-    "slug": "rent-car",
+    "name": "pekanbaru-florist",
+    "slug": "pekanbaru-florist",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon_apk.png",
@@ -37,11 +37,11 @@
       }
     },
     "android": {
-      "package": "com.ridho21.rentcar",
+      "package": "com.pekanbaru.florist",
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
     },
-    "owner": "ridho21"
+    "owner": "pekanbaru-florist"
   }
 }

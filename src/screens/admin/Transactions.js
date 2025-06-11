@@ -68,7 +68,11 @@ const styles = StyleSheet.create({
 		color: 'red',
 		fontSize: 20,
 		fontWeight: 'bold'
-	}
+	}, 
+	logo: {
+        height: 60,
+        width: 180
+    },
 });
 
 
@@ -244,33 +248,36 @@ export default function ({ navigation }) {
 	return (
 		<Layout>
 			<TopNav
+				backgroundColor={themeColor.maroon}
+				borderColor='#FFFFFF'
 				middleContent={
 					<Image
 						style={styles.logo}
-						source={require('../../../assets/logo.png')}
+						source={require('../../../assets/logo-horizontal.png')}
 					/>
 				}
 				leftContent={
 					<Ionicons
-						name={isDarkmode ? "sunny" : "moon"}
-						size={20}
-						color={isDarkmode ? themeColor.white100 : themeColor.dark}
+						// name={isDarkmode ? "sunny" : "moon"}
+						name='person-circle-outline'
+						size={28}
+						color={isDarkmode ? themeColor.white100 : themeColor.white100}
 					/>
 				}
 				rightContent={
 					<Ionicons
 						name="log-out-outline"
 						size={25}
-						color={isDarkmode ? themeColor.white100 : themeColor.dark}
+						color={isDarkmode ? themeColor.white100 : themeColor.white100}
 					/>
 				}
-				leftAction={() => {
-					if (isDarkmode) {
-						setTheme("light");
-					} else {
-						setTheme("dark");
-					}
-				}}
+				// leftAction={() => {
+				//     if (isDarkmode) {
+				//         setTheme("light");
+				//     } else {
+				//         setTheme("dark");
+				//     }
+				// }}
 				rightAction={() => {
 					signOut(FIREBASE_AUTH);
 				}}

@@ -48,9 +48,10 @@ export default function ({ navigation }) {
           <View
             style={{
               flex: 1,
+              height: 320,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: isDarkmode ? "#17171E" : themeColor.white100,
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.maroon,
             }}
           >
             <Image
@@ -74,13 +75,12 @@ export default function ({ navigation }) {
               fontWeight="bold"
               style={{
                 alignSelf: "center",
-                padding: 30,
+                padding: 20,
               }}
               size="h3"
             >
               Login
             </Text>
-            <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your email"
@@ -91,8 +91,7 @@ export default function ({ navigation }) {
               keyboardType="email-address"
               onChangeText={(text) => setEmail(text)}
             />
-
-            <Text style={{ marginTop: 15 }}>Password</Text>
+            
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your password"

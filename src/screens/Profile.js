@@ -120,36 +120,6 @@ export default function ({ navigation }) {
 		return url
 	}
 
-	const addCar = async () => {
-		try {
-			const url = await uploadImageAsync(image);
-			console.log(url);
-			const car = await addDoc(collection(FIRESTORE_DB, 'car-list'), {
-				car_name: carName,
-				brand: brand,
-				transmision: transmision,
-				price: parseInt(price),
-				seats: parseInt(seats),
-				image_url: url,
-				insert_at: serverTimestamp()
-			});
-			console.log('id', car.id);
-		}
-		catch (e) {
-			console.log('error', e);
-		}
-		alert(
-			'Photo uploaded!',
-			'Your photo has been uploaded to Firebase Cloud Storage!'
-		);
-		setImage(null);
-		setName(null);
-		setBrand(null);
-		setTransmision(null);
-		setPrice(null);
-		setSeats(null);
-	};
-
 	const updProfile = async () => {
 		const url = await uploadImageAsync(image);
 		try {

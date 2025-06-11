@@ -22,21 +22,9 @@ import Register from "../screens/auth/Register";
 import ForgetPassword from "../screens/auth/ForgetPassword";
 import { AuthContext } from "../provider/AuthProvider";
 //Admin Screen
-import AddCar from "../screens/admin/AddCar";
+import AddProduct from "../screens/admin/AddProduct";
 import ViewCar from "../screens/admin/ViewCar";
 import Transactions from "../screens/admin/Transactions";
-
-
-// Better put your these secret keys in .env file
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDsUeWrXemUoRkPEFcdvCBvrvrQXgCXS1U",
-//   authDomain: "https://car-rental-39b9e.firebaseapp.com/__/auth/action?mode=action&oobCode=code",
-//   databaseURL: "https://car-rental-39b9e-default-rtdb.asia-southeast1.firebasedatabase.app/",
-//   projectId: "car-rental-39b9e",
-//   storageBucket: "car-rental-39b9e.appspot.com",
-//   messagingSenderId: "163939117791",
-//   appId: "1:163939117791:android:f94dc42ce6e5b62962176a",
-// };
 
 if (getApps().length === 0) {
   initializeApp(firebaseConfig);
@@ -109,7 +97,7 @@ const MainTabs = () => {
             <TabBarText focused={focused} title="Home" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"home-outline"} />
+            <TabBarIcon focused={focused} icon={"storefront-outline"} />
           ),
         }}
       />
@@ -121,7 +109,7 @@ const MainTabs = () => {
             <TabBarText focused={focused} title="Orders" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"car-outline"}/>
+            <TabBarIcon focused={focused} icon={"rose-outline"}/>
           ),
         }}
       />
@@ -133,7 +121,19 @@ const MainTabs = () => {
             <TabBarText focused={focused} title="About" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"alert-circle-outline"} />
+            <TabBarIcon focused={focused} icon={"bag-handle-outline"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Account"
+        component={Profile}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title="Account" />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={"person-circle-outline"} />
           ),
         }}
       />
@@ -156,14 +156,14 @@ const AdminTabs = () => {
     >
       {/* these icons using Ionicons */}
       <adminTabs.Screen
-        name="AddCar"
-        component={AddCar}
+        name="AddProduct"
+        component={AddProduct}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Home" />
+            <TabBarText focused={focused} title="Add Product" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"home-outline"} />
+            <TabBarIcon focused={focused} icon={"duplicate-outline"} />
           ),
         }}
       />
@@ -172,10 +172,10 @@ const AdminTabs = () => {
         component={ViewCar}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="View Car" />
+            <TabBarText focused={focused} title="View Product" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"car-outline"} />
+            <TabBarIcon focused={focused} icon={"layers-outline"} />
           ),
         }}
       />

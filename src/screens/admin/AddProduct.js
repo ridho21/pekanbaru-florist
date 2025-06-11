@@ -28,12 +28,17 @@ const styles = StyleSheet.create({
     btn: {
         margin: 10,
         marginTop: 20,
-        flex: 1
+        flex: 1,
+        fontSize: 10
     },
     item: {
         padding: 10,
         fontSize: 18,
         height: 44,
+    },
+    logo: {
+        height: 60,
+        width: 180
     },
     box: {
         height: 100,
@@ -47,8 +52,9 @@ const styles = StyleSheet.create({
 });
 
 export default function ({ navigation, route }) {
-    const [carName, setCarName] = React.useState('');
-    const [recomended, setRecomended] = React.useState(true);
+    const [productName, setCarName] = React.useState('');
+    const [bestSeller, setBestSeller] = React.useState(true);
+    const [promo, setPromo] = React.useState(true);
     const [brand, setBrand] = React.useState('');
     const [category, setCategory] = React.useState('');
     const [speed, setSpeed] = React.useState('');
@@ -62,12 +68,13 @@ export default function ({ navigation, route }) {
     const { isDarkmode, setTheme } = useTheme();
     const [image, setImage] = useState(null);
     const items = [
-        { label: 'Manual', value: 'Manual' },
-        { label: 'Automatic', value: 'Automatic' }
+        { label: 'Single', value: 'Single' },
+        { label: 'Twin', value: 'Twin' },
+        { label: 'Akrilik', value: 'Akrilik' }
     ];
     const [isUpdate, setIsUpdate] = React.useState(false);
-    const isDisabled = !carName || !brand || !transmision || !price || !seats || !image;   
-    
+    const isDisabled = !productName || !brand || !transmision || !price || !seats || !image;
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -110,7 +117,7 @@ export default function ({ navigation, route }) {
                 const url = await uploadImageAsync(image);
                 const docRef = doc(FIRESTORE_DB, 'car-list', route.params.id);
                 const car = await updateDoc(docRef, {
-                    car_name: carName,
+                    car_name: productName,
                     category: category,
                     brand: brand,
                     car_year: parseInt(year),
@@ -123,7 +130,8 @@ export default function ({ navigation, route }) {
                     description: desc,
                     image_url: url,
                     insert_at: serverTimestamp(),
-                    recomended: recomended
+                    bestSeller: bestSeller,
+                    promo: promo
                 });
                 console.log(car);
             }
@@ -145,7 +153,8 @@ export default function ({ navigation, route }) {
             setTransmision(null);
             setPrice(null);
             setSeats(null);
-            setRecomended(false);
+            setBestSeller(false);
+            setPromo(false);
             setIsUpdate(false);
         }
         else {
@@ -153,7 +162,7 @@ export default function ({ navigation, route }) {
                 const url = await uploadImageAsync(image);
                 console.log(url);
                 const car = await addDoc(collection(FIRESTORE_DB, 'car-list'), {
-                    car_name: carName,
+                    car_name: productName,
                     category: category,
                     brand: brand,
                     car_year: parseInt(year),
@@ -166,7 +175,8 @@ export default function ({ navigation, route }) {
                     description: desc,
                     image_url: url,
                     insert_at: serverTimestamp(),
-                    recomended: recomended
+                    bestSeller: bestSeller,
+                    promo: promo
                 });
                 console.log('id', car.id);
             }
@@ -188,77 +198,9 @@ export default function ({ navigation, route }) {
             setTransmision(null);
             setPrice(null);
             setSeats(null);
-            setRecomended(false);
+            setBestSeller(false);
+            setPromo(false);
         }
-    }
-
-    const updateCar = async () => {
-        try {
-            const url = await uploadImageAsync(image);
-            const car = await updateDoc(collection(FIRESTORE_DB, 'car-list', route.params.id), {
-                car_name: carName,
-                category: category,
-                brand: brand,
-                car_year: parseInt(year),
-                top_speed: parseInt(speed),
-                max_fuel: parseInt(maxFuel),
-                transmision: transmision,
-                price: parseInt(price),
-                seats: parseInt(seats),
-                stock: parseInt(stock),
-                description: desc,
-                image_url: url,
-                insert_at: serverTimestamp()
-            });
-            console.log(car);
-        }
-        catch (e) {
-            console.log(e)
-        }
-        alert(
-            'Update Success'
-        );
-    }
-
-    const addCar = async () => {
-        try {
-            const url = await uploadImageAsync(image);
-            console.log(url);
-            const car = await addDoc(collection(FIRESTORE_DB, 'car-list'), {
-                car_name: carName,
-                category: category,
-                brand: brand,
-                car_year: parseInt(year),
-                top_speed: parseInt(speed),
-                max_fuel: parseInt(maxFuel),
-                transmision: transmision,
-                price: parseInt(price),
-                seats: parseInt(seats),
-                stock: parseInt(stock),
-                description: desc,
-                image_url: url,
-                insert_at: serverTimestamp()
-            });
-            console.log('id', car.id);
-        }
-        catch (e) {
-            console.log('error', e);
-        }
-        alert(
-            'Submit Success'
-        );
-        setImage(null);
-        setCarName(null);
-        setCategory(null);
-        setBrand(null);
-        setYear(null);
-        setSpeed(null);
-        setMaxFuel(null);
-        setStock(null);
-        setDesc(null);
-        setTransmision(null);
-        setPrice(null);
-        setSeats(null);
     }
 
     async function uploadImageAsync(uri) {
@@ -291,145 +233,138 @@ export default function ({ navigation, route }) {
     return (
         <Layout>
             <TopNav
+                backgroundColor={themeColor.maroon}
+                borderColor='#FFFFFF'
                 middleContent={
                     <Image
                         style={styles.logo}
-                        source={require('../../../assets/logo.png')}
+                        source={require('../../../assets/logo-horizontal.png')}
                     />
                 }
                 leftContent={
                     <Ionicons
-                        name={isDarkmode ? "sunny" : "moon"}
-                        size={20}
-                        color={isDarkmode ? themeColor.white100 : themeColor.dark}
+                        // name={isDarkmode ? "sunny" : "moon"}
+                        name='person-circle-outline'
+                        size={28}
+                        color={isDarkmode ? themeColor.white100 : themeColor.white100}
                     />
                 }
                 rightContent={
                     <Ionicons
                         name="log-out-outline"
                         size={25}
-                        color={isDarkmode ? themeColor.white100 : themeColor.dark}
+                        color={isDarkmode ? themeColor.white100 : themeColor.white100}
                     />
                 }
-                leftAction={() => {
-                    if (isDarkmode) {
-                        setTheme("light");
-                    } else {
-                        setTheme("dark");
-                    }
-                }}
+                // leftAction={() => {
+                //     if (isDarkmode) {
+                //         setTheme("light");
+                //     } else {
+                //         setTheme("dark");
+                //     }
+                // }}
                 rightAction={() => {
                     signOut(FIREBASE_AUTH);
                 }}
             />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerForm}>
-                    <Text style={{ marginBottom: 10, marginTop: 10 }}> Car Name </Text>
+                    {/* <Text style={{ marginBottom: 10, marginTop: 10 }}> Product Name </Text> */}
                     <TextInput
-                        placeholder="~"
-                        value={carName}
+                        placeholder="Product Name"
+                        value={productName}
+                        backgroundColor={themeColor.grey}
                         onChangeText={(val) => setCarName(val)}
-                    // leftContent={
-                    //     <Ionicons name="lock-closed" size={20}/>
-                    // }
+                        rightContent={
+                            <Ionicons name="flower-outline" size={20} color={themeColor.grey} />
+                        }
                     />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Category</Text>
-                    <TextInput
-                        placeholder="SUV/MPV/OTHER"
+                    <Text style={{ marginBottom: 1 }}> </Text>
+                    <Picker
+                        items={items}
+                        placeholder="Select Category"
                         value={category}
                         onChangeText={(val) => setCategory(val)}
                     // rightContent={
                     //     <Ionicons name="mail" size={20} />
                     // }
                     />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Brand</Text>
+                    <Text style={{ marginBottom: 1 }}> </Text>
                     <TextInput
-                        placeholder="~"
-                        value={brand}
-                        onChangeText={(val) => setBrand(val)}
-                    // rightContent={
-                    //     <Ionicons name="mail" size={20} />
-                    // }
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Year</Text>
-                    <TextInput
-                        placeholder="2000"
-                        value={year}
-                        onChangeText={(val) => setYear(val)}
-                        keyboardType='numeric'
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Top Speed</Text>
-                    <TextInput
-                        placeholder="100"
-                        value={speed}
-                        onChangeText={(val) => setSpeed(val)}
-                        keyboardType='numeric'
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Max Fuel</Text>
-                    <TextInput
-                        placeholder="100"
-                        value={maxFuel}
-                        onChangeText={(val) => setMaxFuel(val)}
-                        keyboardType='numeric'
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Transmision</Text>
-                    <Picker
-                        items={items}
-                        value={transmision}
-                        placeholder="Chose Transmision"
-                        onValueChange={(val) => setTransmision(val)}
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Price</Text>
-                    <TextInput
-                        placeholder="Rp.0"
+                        placeholder="Rp."
                         value={price}
                         onChangeText={(val) => setPrice(val)}
                         keyboardType='numeric'
+                        rightContent={
+                            <Ionicons name="cash-outline" size={20} color={themeColor.grey} />
+                        }
                     />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Seats</Text>
+                    <Text style={{ marginBottom: 1 }}> </Text>
                     <TextInput
-                        placeholder="0"
-                        value={seats}
-                        onChangeText={(val) => val <= 7 ? setSeats(val) : alert('seat cannot more than 7')}
-                        keyboardType='numeric'
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Stock</Text>
-                    <TextInput
-                        placeholder="0"
+                        placeholder="Stock"
                         value={stock}
                         onChangeText={(val) => val < 0 ? alert('stock cannot less than 0') : setStock(val)}
                         keyboardType='numeric'
+                        rightContent={
+                            <Ionicons name="layers-outline" size={20} color={themeColor.grey} />
+                        }
                     />
-                    <BouncyCheckbox
-                        size={25}
-                        style={{ marginLeft: 10, marginBottom: 10, marginTop: 20 }}
-                        fillColor="green"
-                        unFillColor="#FFFFFF"
-                        text="Recommended"
-                        textStyle={{ textDecorationLine: "none" }}
-                        iconStyle={{ borderColor: "red" }}
-                        innerIconStyle={{ borderWidth: 2 }}
-                        isChecked
-                        onPress={(isChecked) => { setRecomended(isChecked) }}
-                    />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}> Description</Text>
+                    <Text style={{ marginBottom: 1 }}> </Text>
                     <TextInput
                         multiline
                         placeholder="Description"
                         numberOfLines={4}
                         value={desc}
                         onChangeText={(val) => setDesc(val)}
+                        rightContent={
+                            <Ionicons name="create-outline" size={20} color={themeColor.grey} />
+                        }
                     />
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Button status="gray"
-                            text="Upload Image"
+                        <BouncyCheckbox
+                            size={20}
+                            style={{ marginLeft: 8, marginBottom: 10, marginTop: 20 }}
+                            fillColor={themeColor.maroon}
+                            unFillColor="#FFFFFF"
+                            text="Kategori 'Best Seller'?"
+                            textStyle={{ textDecorationLine: "none", fontSize: 14 }}
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            isChecked
+                            onPress={(isChecked) => { setBestSeller(isChecked) }}
+                        />
+
+                        <BouncyCheckbox
+                            size={20}
+                            style={{ marginLeft: 8, marginBottom: 10, marginTop: 20 }}
+                            fillColor={themeColor.maroon}
+                            unFillColor="#FFFFFF"
+                            text="Kategori 'Promo'?"
+                            textStyle={{ textDecorationLine: "none", fontSize: 14 }}
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            isChecked
+                            onPress={(isChecked) => { setPromo(isChecked) }}
+                        />
+                    </View>
+
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Button status="maroon"
+                            text="upload image "
+                            size="sm"
                             onPress={pickImage}
-                            style={styles.btn} />
+                            style={styles.btn}
+                            rightContent={
+                                <Ionicons name="cloud-upload-outline" size={20} color={themeColor.white} />
+                            } />
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         {image && <Image source={{ uri: image }} style={{ width: 300, height: 200, margin: 15 }} />}
                     </View>
                     <Button
-                        status="dark100"
+                        status="maroon"
                         text="Submit"
+                        size='md'
                         onPress={carHandler}
                         style={styles.btn}
                         disabled={isDisabled}

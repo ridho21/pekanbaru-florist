@@ -48,7 +48,8 @@ export default function ({ navigation }) {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: isDarkmode ? "#17171E" : themeColor.white100,
+              height: 320,
+              backgroundColor: isDarkmode ? "#17171E" : themeColor.maroon,
             }}
           >
             <Image
@@ -57,7 +58,7 @@ export default function ({ navigation }) {
                 height: 220,
                 width: 220,
               }}
-              source={require("../../../assets/forget.png")}
+              source={require("../../../assets/login.png")}
             />
           </View>
           <View
@@ -78,7 +79,6 @@ export default function ({ navigation }) {
             >
               Forget Password
             </Text>
-            <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Enter your email"
@@ -90,6 +90,7 @@ export default function ({ navigation }) {
               onChangeText={(text) => setEmail(text)}
             />
             <Button
+              status="dark100"
               text={loading ? "Loading" : "Send email"}
               onPress={() => {
                 forget();

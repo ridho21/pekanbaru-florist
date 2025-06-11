@@ -115,8 +115,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
   logo: {
-    width: 120,
-    height: 20,
+    width: '50%',
+    height: '50%',
+    alignSelf: 'center'
   },
   containerBrand: {
     display: 'flex',
@@ -160,6 +161,18 @@ const styles = StyleSheet.create({
   button: {
     color: 'white',
     margin: 2,
+  },
+  homeHeader: {
+    height: 180,
+    width: '100%',
+    backgroundColor: themeColor.maroon,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    marginBottom: '10%'
+  },
+  containerHeader: {
+    flexDirection: 'row',
+    alignContent: 'center'
   }
 });
 
@@ -448,10 +461,10 @@ export default function ({ navigation }) {
         }}
       > */}
 
-        {/* <View style={{position: 'absolute', bottom: 2, left: 2, zIndex: 5}}> */}
+      {/* <View style={{position: 'absolute', bottom: 2, left: 2, zIndex: 5}}> */}
 
-        {/* </View> */}
-        <TopNav
+      {/* </View> */}
+      {/* <TopNav
           middleContent=""
           leftContent={
             <Image
@@ -476,38 +489,69 @@ export default function ({ navigation }) {
           }}
           backgroundColor="transparent"
           borderColor="transparent"
-        />
-        <FlatList
-          style={{ paddingTop: 5 }}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          ListHeaderComponent={
-            <View>
-              <View style={{ padding: 15 }}>
+        /> */}
+      <FlatList
+        style={{ paddingTop: 5 }}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListHeaderComponent={
+          <View>
+            <View style={styles.homeHeader}>
+              <Image
+                style={styles.logo}
+                source={require('../../assets/logo-horizontal.png')}
+              />
+              <View style={styles.containerHeader}>
+                <View style={{ flex: 0.15 }}></View>
+                <View style={{ flex: 0.18 }}>
+                  {image && <Image source={{ uri: image }} style={{ width: 45, height: 45, borderRadius: 100 }} />}
+                </View>
+                <View style={{ flex: 0.67 }}>
+                  <Text style={{ color: themeColor.white, fontWeight: 'bold', fontSize: 20 }}>Hello! {auth.currentUser.displayName}</Text>
+                  <Text style={{ color: themeColor.white, fontSize: 13 }}>Mau beri ucapan apa hari ini?</Text>
+                </View>
+              </View>
+              <View style={{ paddingTop: 25 }}>
                 <TextInput
+                  containerStyle={{ height: 40, width: '80%', alignSelf: 'center' }}
+                  borderRadius={15}
                   placeholder="Search"
                   value={search}
                   onChangeText={(val) => setSearch(val)}
                   rightContent={
-                    <Ionicons name="search-outline" size={25} color={'grey'} />
+                    <Ionicons name="search-outline" size={20} color={'grey'} />
                   }
                 />
               </View>
-              <Text style={{ marginLeft: 20, fontSize: 20, color: 'white' }}>Recomended :</Text>
-              <FlatList data={recomended}
-                renderItem={renderCarItemHorizontal}
-                keyExtractor={(item) => item.id}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              />
             </View>
-          }
-          // <View style={styles.container}>
-          ListFooterComponent={
-            <View style={styles.content}>
-              {/* <View style={{
+
+            {/* <View style={{ padding: 15 }}>
+              <TextInput
+                containerStyle={{ height: 40 }}
+                borderRadius={25}
+                placeholder="Search"
+                value={search}
+                onChangeText={(val) => setSearch(val)}
+                rightContent={
+                  <Ionicons name="search-outline" size={20} color={'grey'} />
+                }
+              />
+            </View> */}
+            <Text style={{ marginStart:'4%', fontSize: 18, fontWeight: 'bold', color: themeColor.black }}>Promo!</Text>
+            <FlatList data={recomended}
+              renderItem={renderCarItemHorizontal}
+              keyExtractor={(item) => item.id}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        }
+        // <View style={styles.container}>
+        ListFooterComponent={
+          <View style={styles.content}>
+            {/* <View style={{
               position: 'absolute',
               top: height / 2 - 50, // Adjust the position as needed
               left: width / 2 - 100,
@@ -520,63 +564,63 @@ export default function ({ navigation }) {
 
 
             </View> */}
-              <View style={{ display: 'flex', flexDirection: 'row', paddingLeft: 15 }}>
-                <Button onPress={() => {
-                  setFilter('ALL')
-                  fetchPost()
-                }} status={filter == 'ALL' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="ALL" />
-                <Button onPress={() => {
-                  // setCar([]);
-                  setFilter('SUV')
-                  fetchSUV();
-                  // onRefresh()
-                  // onRefresh()
-                }} status={filter == 'SUV' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="SUV" />
-                <Button onPress={() => {
-                  setFilter('MPV')
-                  fetchMPV();
-                  // fetchCategory()
-                  // onRefresh()
-                }} status={filter == 'MPV' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="MPV" />
-              </View>
-              <SafeAreaView style={{ flex: 0 }}>
-                <FlatList
-                  data={car}
-                  renderItem={renderCarItem}
-                  keyExtractor={(item) => item.id}
-                  showsVerticalScrollIndicator={false}
-                // scrollEnabled={false}
+            <View style={{ display: 'flex', flexDirection: 'row', paddingLeft: 15 }}>
+              <Button onPress={() => {
+                setFilter('ALL')
+                fetchPost()
+              }} status={filter == 'ALL' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="ALL" />
+              <Button onPress={() => {
+                // setCar([]);
+                setFilter('SUV')
+                fetchSUV();
+                // onRefresh()
+                // onRefresh()
+              }} status={filter == 'SUV' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="SUV" />
+              <Button onPress={() => {
+                setFilter('MPV')
+                fetchMPV();
+                // fetchCategory()
+                // onRefresh()
+              }} status={filter == 'MPV' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="MPV" />
+            </View>
+            <SafeAreaView style={{ flex: 0 }}>
+              <FlatList
+                data={car}
+                renderItem={renderCarItem}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+              // scrollEnabled={false}
 
-                />
-                <Modal
-                  visible={modalVisible}
-                  animationType="slide"
-                  transparent={true}
-                  onRequestClose={closeModal}
-                ><View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                      <Image style={{ width: 300, height: 200 }} source={{ uri: detail.image_url }} />
-                      <Text>{detail ? detail.car_name : ''}</Text>
-                      <View style={styles.containerBtn}>
-                        <Button
-                          status="success"
-                          text="Order"
-                          style={styles.btn}
-                          onPress={closeModal}
-                        />
-                        <Button
-                          status="danger"
-                          text="Close"
-                          style={styles.btn}
-                          onPress={closeModal}
-                        />
-                      </View>
+              />
+              <Modal
+                visible={modalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={closeModal}
+              ><View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <Image style={{ width: 300, height: 200 }} source={{ uri: detail.image_url }} />
+                    <Text>{detail ? detail.car_name : ''}</Text>
+                    <View style={styles.containerBtn}>
+                      <Button
+                        status="success"
+                        text="Order"
+                        style={styles.btn}
+                        onPress={closeModal}
+                      />
+                      <Button
+                        status="danger"
+                        text="Close"
+                        style={styles.btn}
+                        onPress={closeModal}
+                      />
                     </View>
                   </View>
-                </Modal>
-              </SafeAreaView>
+                </View>
+              </Modal>
+            </SafeAreaView>
 
-              {/* <Button
+            {/* <Button
               text="Go to second screen"
               onPress={() => {
                 navigation.navigate("Details");
@@ -585,29 +629,29 @@ export default function ({ navigation }) {
                 marginTop: 10,
               }}
             /> */}
-              {/* Tambahkan lebih banyak card sesuai kebutuhan */}
-              {/* <View style={styles.footer}>
+            {/* Tambahkan lebih banyak card sesuai kebutuhan */}
+            {/* <View style={styles.footer}>
               <TouchableOpacity style={styles.footerButton} size="sm">
                 <Text style={styles.footerButtonText}>Ini Footer</Text>
               </TouchableOpacity>
             </View> */}
-            </View>
+          </View>
 
-          }
-        />
-        <TouchableOpacity style={{
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-          width: 60,
-          height: 60,
-          borderRadius: 25,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#25D366'
-        }}>
-          <Ionicons style={{}} name="logo-whatsapp" size={40} color={'white'} onPress={() => Linking.openURL('https://wa.me/6282284924141')} />
-        </TouchableOpacity>
+        }
+      />
+      <TouchableOpacity style={{
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        width: 60,
+        height: 60,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#25D366'
+      }}>
+        <Ionicons style={{}} name="logo-whatsapp" size={40} color={'white'} onPress={() => Linking.openURL('https://wa.me/6282284924141')} />
+      </TouchableOpacity>
       {/* </ImageBackground> */}
     </Layout >
   );
