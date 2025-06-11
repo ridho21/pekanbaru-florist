@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "rent-car",
+    "slug": "rent-car",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon_apk.png",
+    "splash": {
+      "image": "./assets/logo-about.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e577aa73-225e-49ce-ada5-c55fc29b4dbb"
+      }
+    },
+    "android": {
+      "package": "com.ridho21.rentcar",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "owner": "ridho21"
+  }
+}
