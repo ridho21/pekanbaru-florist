@@ -12,7 +12,7 @@ import TabBarText from "../components/utils/TabBarText";
 import Home from "../screens/Home";
 import Details from "../screens/Details";
 import Orders from "../screens/Orders";
-import About from "../screens/About";
+import Product from "../screens/Product";
 import Profile from "../screens/Profile";
 import Booking from "../screens/Booking";
 import Loading from "../screens/utils/Loading";
@@ -23,7 +23,7 @@ import ForgetPassword from "../screens/auth/ForgetPassword";
 import { AuthContext } from "../provider/AuthProvider";
 //Admin Screen
 import AddProduct from "../screens/admin/AddProduct";
-import ViewCar from "../screens/admin/ViewCar";
+import ViewCar from "../screens/admin/ViewProduct";
 import Transactions from "../screens/admin/Transactions";
 
 if (getApps().length === 0) {
@@ -84,7 +84,11 @@ const MainTabs = () => {
         headerShown: false,
         tabBarStyle: {
           borderTopColor: isDarkmode ? themeColor.dark100 : "#c0c0c0",
-          backgroundColor: isDarkmode ? themeColor.dark200 : "#ffffff",
+          backgroundColor: '#EFE8EA',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          marginHorizontal: 3
+          // backgroundColor: isDarkmode ? themeColor.dark200 : "#ffffff",
         },
       }}
     >
@@ -102,6 +106,18 @@ const MainTabs = () => {
         }}
       />
       <Tabs.Screen
+        name="Product"
+        component={Product}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title="Product" />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={"rose-outline"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="Orders"
         component={Orders}
         options={{
@@ -109,19 +125,7 @@ const MainTabs = () => {
             <TabBarText focused={focused} title="Orders" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"rose-outline"}/>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="About"
-        component={About}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="About" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"bag-handle-outline"} />
+            <TabBarIcon focused={focused} icon={"bag-handle-outline"}/>
           ),
         }}
       />
@@ -150,8 +154,12 @@ const AdminTabs = () => {
         headerShown: false,
         tabBarStyle: {
           borderTopColor: isDarkmode ? themeColor.dark100 : "#c0c0c0",
-          backgroundColor: isDarkmode ? themeColor.dark200 : "#ffffff",
-        },
+          backgroundColor: '#EFE8EA',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          marginHorizontal: 3
+          // backgroundColor: isDarkmode ? themeColor.dark200 : "#ffffff",
+        }
       }}
     >
       {/* these icons using Ionicons */}

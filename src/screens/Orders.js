@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Linking, View, StyleSheet, FlatList, RefreshControl, Image, TouchableOpacity, Modal } from 'react-native';
-import { Layout, Text, Button } from 'react-native-rapi-ui';
+import { Layout, Text, Button, TopNav, themeColor } from 'react-native-rapi-ui';
 import { FIRESTORE_DB } from '../firebase/Config';
 import { signOut, updateProfile, updatePhoneNumber, getAuth, updateEmail } from "firebase/auth";
 import { collection, getDocs, getDoc, deleteDoc, doc, where, query, updateDoc } from 'firebase/firestore';
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	containerPrice: {
 		alignItems: 'center',
 		padding: 2,
-		marginTop:'5%'
+		marginTop: '5%'
 		// marginLeft: '70%'
 	},
 	card: {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		margin: 3,
 		flex: 1,
-		fontStyle:'italic'
+		fontStyle: 'italic'
 	},
 	titlePaid: {
 		fontSize: 25,
@@ -88,10 +88,15 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		alignItems: 'center',
 	},
+	logo: {
+		height: 60,
+		width: 180
+	}
 })
 
 export default function ({ navigation }) {
 	const [order, setOrder] = React.useState([]);
+	const [filter, setFilter] = React.useState('ALL');
 	const [car, setCar] = React.useState([]);
 	const [detail, setDetail] = React.useState([]);
 	const [modalVisible, setModalVisible] = React.useState(false);
@@ -165,14 +170,14 @@ export default function ({ navigation }) {
 					<Text style={{
 						textAlign: 'center',
 						flex: 1,
-						fontSize:20,
-						fontWeight:'bold'
+						fontSize: 20,
+						fontWeight: 'bold'
 					}}>Start</Text>
 					<Text style={{
 						textAlign: 'center',
 						flex: 1,
-						fontSize:20,
-						fontWeight:'bold'
+						fontSize: 20,
+						fontWeight: 'bold'
 					}}>End</Text>
 				</View>
 				<View style={styles.containerTxt}>
@@ -192,7 +197,7 @@ export default function ({ navigation }) {
 					<Button
 						status="danger"
 						text="Cancel"
-						disabled={item.status == 'PAID' || item.status == 'DONE'? true : false}
+						disabled={item.status == 'PAID' || item.status == 'DONE' ? true : false}
 						style={styles.btn}
 						onPress={() => handleItemPress(item)}
 					/>
@@ -216,9 +221,53 @@ export default function ({ navigation }) {
 	);
 	return (
 		<Layout>
+			<TopNav
+				backgroundColor={themeColor.maroon}
+				borderColor='#FFFFFF'
+				middleContent={
+					<Image
+						style={styles.logo}
+						source={require('../../assets/logo-horizontal.png')}
+					/>
+				}
+			/>
 			{/* <View style={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}> */}
 			{order.length > 0 ? '' : <Text style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'center' }}>Data Not Found</Text>}
-			<FlatList
+			<View style={{ alignItems: 'center' }}>
+				<View style={{ display: 'flex', flexDirection: 'row', marginVertical: 13, marginHorizontal: 12, alignContent: 'center', borderRadius: 10, borderColor: '#dddddd', borderWidth: 1, padding: 3 }}>
+					<View style={{ flex: 0.33 }}>
+						<Button onPress={() => {
+							setFilter('ALL')
+							fetchPost()
+						}} status={filter == 'ALL' ? 'maroon' : 'white'} textStyle={{ color: filter == 'ALL' ? '#ffffff' : '#1a1919' }} size="sm" text="Keranjang" />
+					</View>
+					<View style={{ flex: 0.33 }}>
+						<Button onPress={() => {
+							// setCar([]);
+							setFilter('SUV')
+							fetchSUV();
+							// onRefresh()
+							// onRefresh()
+						}} status={filter == 'SUV' ? 'maroon' : 'white'} textStyle={{ color: filter == 'SUV' ? '#ffffff' : '#1a1919' }} size="sm" text="Selesai" />
+					</View>
+				</View>
+			</View>
+			<TouchableOpacity style={{ padding: 7 }}>
+				<View style={{ backgroundColor: 'white', padding: 3, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderColor: '#dddddd', borderWidth: 1, width: '100%', height: 130, display: 'flex', flexDirection: 'row' }}>
+					<View style={{ backgroundColor: 'gray', flex: 0.45 }}>
+
+					</View>
+					<View style={{ backgroundColor: 'white', flex: 0.55 }}>
+						<Text style={{ marginHorizontal: 15, marginVertical: 8 }}>Papan Bunga Rustik Warna Warni - Single</Text>
+						<Text style={{ marginHorizontal: 15, marginVertical: 8 }}>Single Petak</Text>
+						<Text style={{ marginHorizontal: 15, marginVertical: 8, fontWeight: 'bold' }}>Rp. 200.000</Text>
+					</View>
+				</View>
+				<View style={{ alignItems: 'flex-end', backgroundColor: '#85d166', padding: 3, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
+					<Text style={{ fontSize: 14, color: 'white', marginHorizontal: 10 }}>Selesai</Text>
+				</View>
+			</TouchableOpacity>
+			{/* <FlatList
 				data={order}
 				renderItem={renderCarItem}
 				keyExtractor={(item) => item.id}
@@ -226,7 +275,7 @@ export default function ({ navigation }) {
 				refreshControl={
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 				}
-			/>
+			/> */}
 			<Modal
 				visible={modalVisible}
 				animationType="slide"

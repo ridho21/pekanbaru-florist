@@ -37,17 +37,17 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 10
   },
   card: {
-    flex: 0,
-    padding: 16,
+    // padding: 13,
     marginVertical: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 17,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    backgroundColor: 'grey'
+    // backgroundColor: 'grey',
+    borderColor: 'white',
+    borderRadius: 8
   },
   cardHorizontal: {
     flex: 0,
@@ -121,7 +121,12 @@ const styles = StyleSheet.create({
   },
   containerBrand: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: themeColor.white,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8
   },
   horizontalContainer: {
     margin: 10,
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 25,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'black'
   },
   brand: {
     fontSize: 15,
@@ -291,21 +296,25 @@ export default function ({ navigation }) {
 
   const renderCarItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleItemPress(item)}>
+
       <View style={styles.card}>
-        <View style={styles.containerBrand}>
+        {/* <View style={styles.containerBrand}>
           <Ionicons style={{ position: 'relative', marginRight: 4 }} name="people" size={15} color={'white'} />
           <Text style={{ color: 'white', fontSize: 15 }}>{item.seats}</Text>
           <Ionicons style={{ marginLeft: 10 }} name="car-sport" size={15} color={'white'} />
           <Text style={{ marginLeft: 5, color: 'white', fontSize: 15 }}>{item.stock}</Text>
+        </View> */}
+        <View style={{ padding: 15 }}>
+          <Image style={{ width: '100%', aspectRatio: 1.5 }} source={{ uri: item.image_url }} />
         </View>
-        <Image style={{ width: '100%', aspectRatio: 1.5 }} source={{ uri: item.image_url }} />
         {/* <Text>{item.id}</Text> */}
         <View style={styles.containerBrand}>
-          <View style={{ alignContent: 'left' }}>
+          <View style={{ }}>
             <Text style={styles.carName}>{item.car_name}</Text>
             <Text style={styles.brand}>{item.brand}</Text>
+            <Text style={{color: 'black', fontWeight:'bold'}}>Rp.{formatCurrency(item.price)}/hari</Text>
           </View>
-          <View style={{
+          {/* <View style={{
             flexDirection: 'row', position: 'absolute',
             right: 1,
             bottom: 1,
@@ -315,9 +324,9 @@ export default function ({ navigation }) {
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)', // hanya berlaku di web, gunakan elevation di Android
             elevation: 3,
           }}>
-            <Text>Rp.{formatCurrency(item.price)}/hari</Text>
+            
             <Ionicons style={{ marginLeft: 2 }} name="chevron-forward-circle" size={18} />
-          </View>
+          </View> */}
         </View>
 
         {/* <View style={styles.containerTxt}>
@@ -510,12 +519,13 @@ export default function ({ navigation }) {
                 </View>
                 <View style={{ flex: 0.67 }}>
                   <Text style={{ color: themeColor.white, fontWeight: 'bold', fontSize: 20 }}>Hello! {auth.currentUser.displayName}</Text>
-                  <Text style={{ color: themeColor.white, fontSize: 13 }}>Mau beri ucapan apa hari ini?</Text>
+                  <Text style={{ color: themeColor.white, fontSize: 12 }}>Mau beri ucapan apa hari ini?</Text>
                 </View>
               </View>
               <View style={{ paddingTop: 25 }}>
                 <TextInput
-                  containerStyle={{ height: 40, width: '80%', alignSelf: 'center' }}
+                  containerStyle={{ height: 40, width: '80%', alignSelf: 'center'}}
+                  backgroundColor={themeColor.maroonbg}
                   borderRadius={15}
                   placeholder="Search"
                   value={search}
@@ -539,7 +549,7 @@ export default function ({ navigation }) {
                 }
               />
             </View> */}
-            <Text style={{ marginStart:'4%', fontSize: 18, fontWeight: 'bold', color: themeColor.black }}>Promo!</Text>
+            <Text style={{ marginStart: '5%', fontSize: 18, fontWeight: 'bold', color: themeColor.black }}>Promo!</Text>
             <FlatList data={recomended}
               renderItem={renderCarItemHorizontal}
               keyExtractor={(item) => item.id}
@@ -548,7 +558,8 @@ export default function ({ navigation }) {
             />
           </View>
         }
-        // <View style={styles.container}>
+
+        /* LIST & FILTER */
         ListFooterComponent={
           <View style={styles.content}>
             {/* <View style={{
@@ -564,7 +575,7 @@ export default function ({ navigation }) {
 
 
             </View> */}
-            <View style={{ display: 'flex', flexDirection: 'row', paddingLeft: 15 }}>
+            {/* <View style={{ display: 'flex', flexDirection: 'row', paddingLeft: 15 }}>
               <Button onPress={() => {
                 setFilter('ALL')
                 fetchPost()
@@ -582,8 +593,9 @@ export default function ({ navigation }) {
                 // fetchCategory()
                 // onRefresh()
               }} status={filter == 'MPV' ? 'danger' : 'dark100'} style={styles.button} size="sm" text="MPV" />
-            </View>
-            <SafeAreaView style={{ flex: 0 }}>
+            </View> */}
+            <Text style={{ marginStart: '5%', fontSize: 18, fontWeight: 'bold', color: themeColor.black }}>Best Seller!</Text>
+            <SafeAreaView>
               <FlatList
                 data={car}
                 renderItem={renderCarItem}
@@ -639,7 +651,7 @@ export default function ({ navigation }) {
 
         }
       />
-      <TouchableOpacity style={{
+      {/* <TouchableOpacity style={{
         position: 'absolute',
         bottom: 20,
         right: 20,
@@ -651,7 +663,7 @@ export default function ({ navigation }) {
         backgroundColor: '#25D366'
       }}>
         <Ionicons style={{}} name="logo-whatsapp" size={40} color={'white'} onPress={() => Linking.openURL('https://wa.me/6282284924141')} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* </ImageBackground> */}
     </Layout >
   );
