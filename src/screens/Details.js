@@ -14,8 +14,8 @@ import { collection, getDoc, getDocs, where, doc } from 'firebase/firestore';
 
 const styles = StyleSheet.create({
   logo: {
-    width: 120,
-    height: 20,
+    height: 60,
+    width: 180
   },
 })
 
@@ -38,17 +38,18 @@ export default function ({ navigation, route }) {
   return (
     <Layout>
       <TopNav
+        backgroundColor={themeColor.maroon}
         middleContent={
           <Image
             style={styles.logo}
-            source={require('../../assets/logo.png')}
+            source={require('../../assets/logo-horizontal.png')}
           />
         }
         leftContent={
           <Ionicons
             name="chevron-back"
             size={20}
-            color={isDarkmode ? themeColor.white100 : themeColor.dark}
+            color={themeColor.white}
           />
         }
         leftAction={() => navigation.goBack()}
@@ -74,12 +75,14 @@ export default function ({ navigation, route }) {
             // justifyContent: "center",
           }}
         >
-          <Image style={{ width: '98%', aspectRatio: 1.5 }} source={{ uri: car.image_url }} />
-          <Text fontWeight="bold" style={{ fontSize: 25, marginTop: 20 }}>{car.stock > 0 ? "Available" : "Out Of Stock"}</Text>
-          <View style={{ backgroundColor: 'black', width: '100%',borderRadius: 20, marginTop: '8%' }}>
+          <View style={{ padding: 15 }}>
+            <Image style={{ width: '100%', aspectRatio: 1.5 }} source={{ uri: car.image_url }} />
+          </View>
+          {/* <Text fontWeight="bold" style={{ fontSize: 25, marginTop: 20 }}>{car.stock > 0 ? "Available" : "Out Of Stock"}</Text> */}
+          <View style={{ backgroundColor: themeColor.maroon, width: '100%', borderRadius: 15, marginTop: '8%' }}>
             <Text fontWeight="bold" style={{ color: 'white', margin: '3%', fontSize: 25, textAlign: 'center' }}>{car.brand} | {car.car_name}</Text>
             <Text numberOfLines={5} style={{ alignItems: 'center', color: 'white', textAlign: 'justify', marginHorizontal: '5%' }}>{car.description}</Text>
-            <View style={{ flexDirection: 'row', alignContent: 'center', marginTop: '3%', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row', alignContent: 'center', marginTop: '3%', justifyContent: 'center', padding: 10 }}>
               <View style={{ backgroundColor: 'white', width: 100, height: 100, marginHorizontal: '3%', borderRadius: 10 }}>
                 <Ionicons
                   name="speedometer-outline"
@@ -110,7 +113,15 @@ export default function ({ navigation, route }) {
                 <Text style={{ color: 'black', fontSize: 17, textAlign: 'center', marginTop: 4, fontWeight: 'bold' }}>{car.max_fuel}L</Text>
               </View>
             </View>
-            <View style={{margin:'25%'}}></View>
+            {/* <View style={{ margin: '25%' }}></View> */}
+          </View>
+          <View style={{width: '80%'}}>
+            <Button
+              status="maroon"
+              text="Pesan Sekarang"
+              style={{ marginTop: 20 }}
+              onPress={() => Linking.openURL('https://wa.me/6282284924141')}
+            />
           </View>
         </View>
       </ScrollView>

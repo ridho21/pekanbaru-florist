@@ -19,8 +19,8 @@ import { addSyntheticLeadingComment } from "typescript";
 
 const styles = StyleSheet.create({
     logo: {
-        width: 120,
-        height: 20,
+        height: 60,
+        width: 180
     },
     container: {
         flex: 1,
@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     text: {
-        fontSize: 18,
-        margin:20
+        fontSize: 14,
+        margin: 8,
+        alignSelf: 'flex-start'
     },
 })
 
@@ -124,17 +125,18 @@ export default function ({ navigation, route }) {
     return (
         <Layout>
             <TopNav
+                backgroundColor={themeColor.maroon}
                 middleContent={
                     <Image
                         style={styles.logo}
-                        source={require('../../assets/logo.png')}
+                        source={require('../../assets/logo-horizontal.png')}
                     />
                 }
                 leftContent={
                     <Ionicons
                         name="chevron-back"
                         size={20}
-                        color={isDarkmode ? themeColor.white100 : themeColor.dark}
+                        color={themeColor.white}
                     />
                 }
                 leftAction={() => navigation.goBack()}
@@ -154,9 +156,29 @@ export default function ({ navigation, route }) {
             // }}
             />
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Image style={{ width: '100%', aspectRatio:1.5 }} source={{ uri: car.image_url }} />
+                <View style={{ padding: 10 }}>
+                    <Image style={{ width: '100%', aspectRatio: 1.5 }} source={{ uri: car.image_url }} />
+                </View>
                 <View style={styles.container}>
-                    <Text style={styles.text}>Pick up date</Text>
+                    <Text style={styles.text}>Jenis Acara</Text>
+                    <TextInput
+                        placeholder=""
+                        value={name}
+                        onChangeText={(val) => setName(val)}
+                    />
+                    <Text style={styles.text}>Kalimat Tujuan</Text>
+                    <TextInput
+                        placeholder=""
+                        value={name}
+                        onChangeText={(val) => setName(val)}
+                    />
+                    <Text style={styles.text}>Pengirim</Text>
+                    <TextInput
+                        placeholder=""
+                        value={name}
+                        onChangeText={(val) => setName(val)}
+                    />
+                    <Text style={styles.text}>Tanggal Acara</Text>
                     <TextInput
                         placeholder="Pickup Date"
                         value={pick.toDateString()}
@@ -171,54 +193,26 @@ export default function ({ navigation, route }) {
                         onConfirm={handleConfirmPick}
                         onCancel={hideDatePicker1}
                     />
-                    <Text style={styles.text}>Drop off date</Text>
+                    <Text style={styles.text}>Nomor Telepon</Text>
                     <TextInput
-                        placeholder="Drop Date"
-                        value={drop.toDateString()}
-                        editable={false}
-                        rightContent={
-                            <Ionicons name="calendar-outline" size={20} onPress={showDatePicker2} />
-                        }
-                    />
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible2}
-                        mode="date"
-                        onConfirm={handleConfirmDrop}
-                        onCancel={hideDatePicker2}
-                    />
-
-                    <BouncyCheckbox
-                        size={25}
-                        style={{ marginLeft: 10, marginBottom: 10, marginTop: 20 }}
-                        fillColor="green"
-                        unFillColor="#FFFFFF"
-                        text="Driver"
-                        textStyle={{ textDecorationLine: "none" }}
-                        iconStyle={{ borderColor: "red" }}
-                        innerIconStyle={{ borderWidth: 2 }}
-                        isChecked
-                        onPress={(isChecked) => { setDriver(isChecked) }}
-                    />
-
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}>Name</Text>
-                    <TextInput
-                        placeholder="Name"
+                        placeholder=""
                         value={name}
                         onChangeText={(val) => setName(val)}
                     />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}>NIK</Text>
+                    <Text style={styles.text}>Catatan</Text>
                     <TextInput
-                        placeholder="NIK"
-                        value={nik}
-                        onChangeText={(val) => setNik(val)}
+                        placeholder=""
+                        value={name}
+                        onChangeText={(val) => setName(val)}
                     />
-                    <Text style={{ marginBottom: 10, marginTop: 20 }}>Pickup Address</Text>
-                    <TextInput
-                        placeholder="Pickup Address"
-                        value={address}
-                        onChangeText={(val) => setAddress(val)}
-                    />
-                    <Button text="Confirm" status='dark100' disabled={isDisable} onPress={transactionHandler} style={{ marginTop: 30 }}></Button>
+                    <Text style={styles.text}>Lokasi Acara</Text>
+                    <View style={{ alignItems: 'center', width: '100%'}}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Button text="Keranjang" status='dark100' disabled={isDisable} onPress={transactionHandler} style={{ marginHorizontal: 10, flex: 0.5 }}></Button>
+                            <Button text="Pesan Sekarang" status='dark100' disabled={isDisable} onPress={transactionHandler} style={{ marginHorizontal: 10, flex: 0.5 }}></Button>
+                        </View>
+                    </View>
+
                 </View>
                 {/* This text using ubuntu font */}
                 {/* <Image style={{ width: '100%', height: 280 }} source={{ uri: car.image_url }} />
